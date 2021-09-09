@@ -16,6 +16,8 @@ brew "git"
 brew "httpie"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
+# Mac App Store command-line interface
+brew "mas"
 # Platform built on V8 to build network applications
 brew "node"
 # Display directories as trees (with optional color/HTML output)
@@ -40,3 +42,5 @@ cask "slack"
 cask "spotify"
 # Open-source code editor
 cask "visual-studio-code"
+mas "Day One", id: 1055511498
+mas "Snappy", id: 512617038
