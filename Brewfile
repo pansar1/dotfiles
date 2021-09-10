@@ -36,6 +36,14 @@ cask "dropbox"
 cask "gitkraken"
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
+# Open-source screen recorder built with web technology
+cask "kap"
+# App to write, plan, collaborate, and get organized
+cask "notion"
+# Move and resize windows using keyboard shortcuts or snap areas
+cask "rectangle"
+# Screenshot measurement and annotation tool
+cask "shottr"
 # Team communication and collaboration software
 cask "slack"
 # Music streaming service
@@ -43,4 +51,4 @@ cask "spotify"
 # Open-source code editor
 cask "visual-studio-code"
 mas "Day One", id: 1055511498
-mas "Snappy", id: 512617038
+mas "Spark", id: 1176895641
