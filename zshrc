@@ -10,6 +10,8 @@ export HOMEBREW_CASK_OPTS="--no-quarantine"
 # Create Aliases
 alias exa='exa -laFh --git'
 alias ls='exa -laFh --git'
+alias bbd='brew bundle dump --force --describe'
+alias trail='<<<${(F)path}'
 
 # Customize Prompt(s)
 PROMPT='
