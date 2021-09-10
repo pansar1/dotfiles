@@ -34,10 +34,16 @@ cask "discord"
 cask "dropbox"
 # Git client focusing on productivity
 cask "gitkraken"
+# Free and open-source media player
+cask "iina"
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
 # Open-source screen recorder built with web technology
 cask "kap"
+# Meet, chat, call, and collaborate in just one place
+cask "microsoft-teams"
+# Silence embarrassing notifications while screensharing
+cask "muzzle"
 # App to write, plan, collaborate, and get organized
 cask "notion"
 # Move and resize windows using keyboard shortcuts or snap areas
@@ -51,4 +57,5 @@ cask "spotify"
 # Open-source code editor
 cask "visual-studio-code"
 mas "Day One", id: 1055511498
+mas "Session", id: 1521432881
 mas "Spark", id: 1176895641
