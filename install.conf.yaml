@@ -5,8 +5,12 @@
 - clean: ["~"]
 
 - link:
-    ~/.zshrc:
     ~/.zshenv:
+    ~/.zshrc:
+    ~/.zpreztorc:
+    ~/.zlogin:
+    ~/.zlogout:
+    ~/.zprezto: prezto/
     ~/.gitconfig:
     ~/.config/bat:
       create: true
