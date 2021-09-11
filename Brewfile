@@ -18,6 +18,8 @@ brew "httpie"
 brew "jq"
 # Mac App Store command-line interface
 brew "mas"
+# Node version management
+brew "n"
 # Platform built on V8 to build network applications
 brew "node"
 # Display directories as trees (with optional color/HTML output)
