@@ -7,6 +7,7 @@ export HOMEBREW_CASK_OPTS="--no-quarantine"
 export NULLCMD=bat
 export N_PREFIX="$HOME/.n"
 export PREFIX="$N_PREFIX"
+export ZPLUG_HOME=$(brew --prefix)/opt/zplug
 
 # Change ZSH Options
 
@@ -36,4 +37,13 @@ function mkcd() {
  mkdir -p "$@" && cd "$_";
 }
 
-# Use ZSH Plugins
+# Customize to your needs...
+source $ZPLUG_HOME/init.zsh
+# Plugins
+zplug "plugins/git",   from:oh-my-zsh
+zplug "plugins/osx",   from:oh-my-zsh
+zplug "zsh-users/zsh-autosuggestions"
+zplug "b4b4r07/enhancd"
+zplug "junegunn/fzf"
+zplug "g-plane/zsh-yarn-autocompletions"
+zplug "romkatv/powerlevel10k", as:theme, depth:1

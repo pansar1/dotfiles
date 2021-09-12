@@ -24,6 +24,8 @@ brew "n"
 brew "node"
 # Display directories as trees (with optional color/HTML output)
 brew "tree"
+# Next-generation plugin manager for zsh
+brew "zplug"
 # UNIX shell (command interpreter)
 brew "zsh"
 # PhraseApp CLI Tool - API client binary
