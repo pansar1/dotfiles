@@ -1,5 +1,6 @@
 tap "homebrew/bundle"
 tap "homebrew/cask"
+tap "homebrew/cask-fonts"
 tap "homebrew/core"
 tap "phrase/brewed"
 # Search tool like grep, but optimized for programmers
@@ -20,10 +21,10 @@ brew "jq"
 brew "mas"
 # Node version management
 brew "n"
-# Platform built on V8 to build network applications
-brew "node"
 # Display directories as trees (with optional color/HTML output)
 brew "tree"
+# Process YAML documents from the CLI
+brew "yq"
 # Next-generation plugin manager for zsh
 brew "zplug"
 # UNIX shell (command interpreter)
@@ -36,8 +37,11 @@ cask "alfred"
 cask "discord"
 # Client for the Dropbox cloud storage service
 cask "dropbox"
+cask "font-hack-nerd-font"
 # Git client focusing on productivity
 cask "gitkraken"
+# Set of tools to manage resources and applications hosted on Google Cloud
+cask "google-cloud-sdk"
 # Free and open-source media player
 cask "iina"
 # Terminal emulator as alternative to Apple's Terminal app
@@ -61,5 +65,6 @@ cask "spotify"
 # Open-source code editor
 cask "visual-studio-code"
 mas "Day One", id: 1055511498
+mas "Pandan", id: 1569600264
 mas "Session", id: 1521432881
 mas "Spark", id: 1176895641
