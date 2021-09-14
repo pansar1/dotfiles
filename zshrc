@@ -30,6 +30,13 @@ alias ls='exa -laFh --git'
 alias bbd='brew bundle dump --force --describe'
 alias trail='<<<${(F)path}'
 alias rm='trash'
+alias goutm='git checkout master'
+alias gmain='git checkout main'
+alias yoink="git pull"
+alias yeet="git push"
+alias dl="cd ~/Downloads"
+alias dt="cd ~/Desktop"
+alias g="git"
 
 # Customize Prompt(s)
 PROMPT='
