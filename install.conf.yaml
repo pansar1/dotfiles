@@ -10,6 +10,7 @@
     ~/.zpreztorc:
     ~/.zlogin:
     ~/.zlogout:
+    ~/.zprofile:
     ~/.zprezto: prezto/
     ~/.gitconfig:
     ~/.config/bat:
@@ -20,6 +21,7 @@
     - ~/Work
 
 - shell:
+    - [git submodule update --init --recursive, Installing submodules]
     - command: ./setup_homebrew.zsh
       stdout: true
       stderr: true
