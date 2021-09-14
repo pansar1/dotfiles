@@ -3,3 +3,5 @@
 	email = 7646436+pansar1@users.noreply.github.com
 [core]
 	excludesfile = /Users/adamoldin/.gitignore
+[push]
+	default = current
