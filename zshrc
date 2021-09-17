@@ -41,6 +41,8 @@ alias dt="cd ~/Desktop"
 alias g="git"
 alias go="g go"
 alias gpu="g pu"
+alias gl="g l"
+alias gs="g s"
 
 # Customize Prompt(s)
 PROMPT='
