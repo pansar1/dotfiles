@@ -46,6 +46,8 @@ cask "google-cloud-sdk"
 cask "iina"
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
+# Menu bar calendar
+cask "itsycal"
 # Open-source screen recorder built with web technology
 cask "kap"
 # Meet, chat, call, and collaborate in just one place
@@ -62,9 +64,12 @@ cask "shottr"
 cask "slack"
 # Music streaming service
 cask "spotify"
+# Git client
+cask "sublime-merge"
 # Open-source code editor
 cask "visual-studio-code"
 mas "Day One", id: 1055511498
 mas "Pandan", id: 1569600264
 mas "Session", id: 1521432881
 mas "Spark", id: 1176895641
+mas "Things", id: 904280696
