@@ -21,6 +21,8 @@ brew "jq"
 brew "mas"
 # Node version management
 brew "n"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.9", link: false
 # Display directories as trees (with optional color/HTML output)
 brew "tree"
 # Process YAML documents from the CLI
@@ -33,10 +35,14 @@ brew "zsh"
 brew "phrase/brewed/phraseapp"
 # Application launcher and productivity software
 cask "alfred"
+# Test localhost and staging websites
+cask "browserstacklocal"
 # Voice and text chat software
 cask "discord"
 # Client for the Dropbox cloud storage service
 cask "dropbox"
+# Web browser
+cask "firefox"
 cask "font-hack-nerd-font"
 # Git client focusing on productivity
 cask "gitkraken"
@@ -69,6 +75,7 @@ cask "sublime-merge"
 # Open-source code editor
 cask "visual-studio-code"
 mas "Day One", id: 1055511498
+mas "Mela", id: 1568924476
 mas "Pandan", id: 1569600264
 mas "Session", id: 1521432881
 mas "Spark", id: 1176895641
