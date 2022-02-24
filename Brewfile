@@ -19,6 +19,8 @@ brew "httpie"
 brew "jq"
 # Mac App Store command-line interface
 brew "mas"
+# Collection of tools that nobody wrote when UNIX was young
+brew "moreutils"
 # Node version management
 brew "n"
 # Interpreted, interactive, object-oriented programming language
@@ -35,6 +37,8 @@ brew "zsh"
 brew "phrase/brewed/phraseapp"
 # Application launcher and productivity software
 cask "alfred"
+# Desktop password and login vault
+cask "bitwarden"
 # Test localhost and staging websites
 cask "browserstacklocal"
 # Voice and text chat software
