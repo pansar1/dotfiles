@@ -11,8 +11,8 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Source google-cloud-sdk
-source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 
 
 # Set variables
@@ -23,6 +23,7 @@ export NULLCMD=bat
 export N_PREFIX="$HOME/.n"
 export PREFIX="$N_PREFIX"
 export ZPLUG_HOME=$(brew --prefix)/opt/zplug
+export AUTH_SECRET=foobar
 
 # Change ZSH Options
 
@@ -39,7 +40,7 @@ alias yeet="git push"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias g="git"
-alias go="g go"
+# alias go="g go"
 alias gpu="g pu"
 alias gl="g l"
 alias gs="g s"

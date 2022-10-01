@@ -43,11 +43,10 @@ typeset -gU cdpath fpath mailpath path
 
 # Set the list of directories that Zsh searches for programs.
 path=(
-  /usr/local/{bin,sbin}
+  /opt/homebrew/{bin,sbin}
   $path
 )
 
-#
 # Less
 #
 
@@ -61,3 +60,10 @@ export LESS='-g -i -M -R -S -w -X -z-4'
 if (( $#commands[(i)lesspipe(|.sh)] )); then
   export LESSOPEN="| /usr/bin/env $commands[(i)lesspipe(|.sh)] %s 2>&-"
 fi
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+
+alias apibackend-port-forwards="kubectl port-forward --namespace chi deploy/chi-core-api 8080:80 &
+kubectl port-forward --namespace chi deploy/chi-admin-proxy 5432:postgres &
+kubectl port-forward --namespace chi deploy/chi-admin-proxy 6379:redis &
+kubectl port-forward --namespace chi deploy/chi-admin-proxy 4433:opensearch"
