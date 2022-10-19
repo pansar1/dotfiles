@@ -63,7 +63,16 @@ fi
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 
-alias apibackend-port-forwards="kubectl port-forward --namespace chi deploy/chi-core-api 8080:80 &
-kubectl port-forward --namespace chi deploy/chi-admin-proxy 5432:postgres &
-kubectl port-forward --namespace chi deploy/chi-admin-proxy 6379:redis &
-kubectl port-forward --namespace chi deploy/chi-admin-proxy 4433:opensearch"
+alias activities-port-forwards-chi="kubectl port-forward --namespace chi deployment/chi-resultbox 5555:3000 & kubectl port-forward --namespace chi deployment/chi-educational-material 3000:3000 & kubectl port-forward --namespace chi deployment/chi-core-api 8080:80"
+alias activities-port-forwards-stage="kubectl port-forward deployment/stage-resultbox 5555:3000 & kubectl port-forward deployment/stage-educational-material 3000:3000 & kubectl port-forward deployment/stage-core-api 8080:80"
+alias contex-port-forwards-stage="kubectl port-forward deployment/stage-resultbox 5555:3000 & kubectl port-forward deployment/stage-core-api 8080:80"
+alias contex-port-forwards-chi="kubectl port-forward --namespace chi deployment/chi-resultbox 5555:3000 & kubectl port-forward --namespace chi deployment/chi-core-api 8080:80 & kubectl port-forward --namespace chi deploy/chi-admin-proxy 5432:postgres & kubectl port-forward --namespace chi deploy/chi-admin-proxy 6379:redis"
+alias api-backend-port-forwards-chi="kubectl port-forward --namespace chi deploy/chi-core-api 8080:80 & kubectl port-forward --namespace chi deploy/chi-admin-proxy 5440:postgres & kubectl port-forward --namespace chi deploy/chi-admin-proxy 6379:redis & kubectl port-forward --namespace chi deploy/chi-admin-proxy 4433:opensearch"
+alias kimg="kubectl get deploy -o jsonpath='{...image}' | tr '[[:space:]]' '\n' | sed -e 's@.*[^/]/@@g' |  tr ':' ' ' | column -t"
+# Set current kubernetes cluster
+alias kx="kubectx"
+# Set current kubernetes namespace
+alias kns="kubens"
+# Check which namespace is currently configurated
+alias knconf="kubectl config view --minify --output 'jsonpath={..namespace}'; echo"
+export AUTH_SECRET=dGC3rhSL6xbcpfbq

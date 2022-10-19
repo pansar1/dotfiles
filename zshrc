@@ -24,6 +24,7 @@ export N_PREFIX="$HOME/.n"
 export PREFIX="$N_PREFIX"
 export ZPLUG_HOME=$(brew --prefix)/opt/zplug
 export AUTH_SECRET=foobar
+export GITHUB_TOKEN=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
 
 # Change ZSH Options
 
