@@ -1,0 +1,88 @@
+# single-line prompt, no extra newline
+add_newline = false
+
+# Clean two-line prompt with subtle status line
+format = """
+$username$hostname$directory$git_branch$git_status$cmd_duration$time
+$character
+"""
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+vicmd_symbol = "[❮](bold yellow)"
+format = "$symbol "
+
+[directory]
+style = "bold cyan"
+truncation_length = 3
+truncate_to_repo = false
+read_only = " "
+read_only_style = "dimmed red"
+# e.g. ~/p/r/project instead of full path
+
+[git_branch]
+format = "[$symbol$branch]($style) "
+symbol = " "
+style = "bold purple"
+only_attached = true
+
+[git_status]
+format = '([$all_status$ahead_behind]($style) )'
+style = "yellow"
+# Minimal: no verbose counts unless meaningful
+conflicted = "!"
+stashed = "*"
+modified = "+"
+staged = "+"
+renamed = "»"
+deleted = "x"
+untracked = "?"
+ahead = "⇡"
+behind = "⇣"
+diverged = "⇕"
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style) "
+style = "dimmed yellow"
+
+# Show time (subtle)
+[time]
+disabled = false
+time_format = "%H:%M"
+format = "[$time]($style) "
+style = "dimmed blue"
+
+# Show user/host only when it matters
+[username]
+show_always = false
+style_user = "bold purple"
+format = "[$user]($style) "
+
+[hostname]
+ssh_only = true
+style = "bold purple"
+format = "[@$hostname]($style) "
+
+# Disable noisy modules up-front (we can enable later)
+[battery]
+disabled = true
+[docker_context]
+disabled = true
+[package]
+disabled = true
+[nodejs]
+disabled = true
+[rust]
+disabled = true
+[golang]
+disabled = true
+[python]
+disabled = true
+[kubernetes]
+disabled = true
+[aws]
+disabled = true
+[gcloud]
+disabled = true

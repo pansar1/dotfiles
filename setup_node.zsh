@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 echo "\n<<< Starting Node Setup >>>\n"
-
+exists() { command -v "$1" >/dev/null 2>&1; }
 # Node versions are managed with `n`, which is in the Brewfile.
 # See zshrc for N_PREFIX variable and addition to path.
 

@@ -7,11 +7,7 @@
 - link:
     ~/.zshenv:
     ~/.zshrc:
-    ~/.zpreztorc:
-    ~/.zlogin:
-    ~/.zlogout:
-    ~/.zprofile:
-    ~/.zprezto: prezto/
+    ~/.config/starship.toml: config/starship.toml
     ~/.gitconfig:
     ~/.config/bat:
       create: true

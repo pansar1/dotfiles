@@ -1,36 +1,27 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# Source google-cloud-sdk (guarded)
+if [ -s "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc" ]; then
+  source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
 fi
-
-# Source Prezto.
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+if [ -s "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc" ]; then
+  source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 fi
-
-# Source google-cloud-sdk
-source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
-
 
 # Set variables
-# Syntasx highlighting for man pages
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+# Syntax highlighting for man pages (only if bat is available)
 export HOMEBREW_CASK_OPTS="--no-quarantine"
-export NULLCMD=bat
+if command -v bat >/dev/null 2>&1; then
+  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+  export NULLCMD=bat
+else
+  export MANPAGER="less -R"
+  export NULLCMD=cat
+fi
 export N_PREFIX="$HOME/.n"
 export PREFIX="$N_PREFIX"
-export ZPLUG_HOME=$(brew --prefix)/opt/zplug
-export AUTH_SECRET=foobar
-export GITHUB_TOKEN=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
-
-# Change ZSH Options
+# Avoid subshell to `brew` here; use fixed Homebrew path
+export ZPLUG_HOME="/opt/homebrew/opt/zplug"
 
 # Create Aliases
-alias exa='exa -laFh --git'
-alias ls='exa -laFh --git'
 alias bbd='brew bundle dump --force --describe'
 alias trail='<<<${(F)path}'
 alias rm='trash'
@@ -41,40 +32,96 @@ alias yeet="git push"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias g="git"
-# alias go="g go"
 alias gpu="g pu"
 alias gl="g l"
 alias gs="g s"
 
-# Customize Prompt(s)
-PROMPT='
-%1~ %L %# '
+# PATH additions (ensure Homebrew first, then your tools)
+case ":$PATH:" in
+  *":/opt/homebrew/bin:"*) ;;
+  *) export PATH="/opt/homebrew/bin:$PATH" ;;
+esac
+case ":$PATH:" in
+  *":/opt/homebrew/sbin:"*) ;;
+  *) export PATH="/opt/homebrew/sbin:$PATH" ;;
+esac
 
-RPROMPT='%*'
+case ":$PATH:" in
+  *":$N_PREFIX/bin:"*) ;;
+  *) export PATH="$N_PREFIX/bin:$PATH" ;;
+esac
 
-# Add Locations to $path array Variable
-typeset -U path
-path=(
-    "$N_PREFIX/bin"
-    $path
-    "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-)
+case ":$PATH:" in
+  *":/Applications/Visual Studio Code.app/Contents/Resources/app/bin:"*) ;;
+  *) export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin" ;;
+esac
 
 # Write Handy Functions
 function mkcd() {
  mkdir -p "$@" && cd "$_";
 }
 
-# Customize to your needs...
-source $ZPLUG_HOME/init.zsh
-# Plugins
-zplug "plugins/git",   from:oh-my-zsh
-zplug "plugins/osx",   from:oh-my-zsh
-zplug "zsh-users/zsh-autosuggestions"
-zplug "b4b4r07/enhancd"
-zplug "junegunn/fzf"
-zplug "g-plane/zsh-yarn-autocompletions"
-zplug "romkatv/powerlevel10k", as:theme, depth:1
+# Improve autosuggestions visibility before loading plugin
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#6b7280"
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# Plugins (guarded)
+if [ -s "$ZPLUG_HOME/init.zsh" ]; then
+  source "$ZPLUG_HOME/init.zsh"
+  if command -v zplug >/dev/null 2>&1; then
+  zplug "plugins/git",   from:oh-my-zsh
+    zplug "zsh-users/zsh-autosuggestions"
+    zplug "zsh-users/zsh-history-substring-search"
+    zplug "zsh-users/zsh-syntax-highlighting"
+    zplug "b4b4r07/enhancd"
+    zplug "junegunn/fzf"
+    zplug "g-plane/zsh-yarn-autocompletions"
+    zplug 'dracula/zsh', as:theme
+
+    # Ensure plugins are installed and loaded
+    if ! zplug check --verbose; then
+      zplug install
+    fi
+    zplug load
+
+    # Bind Ctrl-f to accept the current autosuggestion (if available)
+    if [[ -n ${widgets[autosuggest-accept]} ]]; then
+      bindkey '^f' autosuggest-accept
+    fi
+  fi
+fi
+
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+command -v go >/dev/null 2>&1 && export PATH="$PATH:$(go env GOPATH)/bin"
+export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="/Users/adamoldin/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
+
+# bun completions
+[ -s "/Users/adamoldin/.bun/_bun" ] && source "/Users/adamoldin/.bun/_bun"
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/adamoldin/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+# GitHub CLI (guarded)
+if command -v gh >/dev/null 2>&1; then
+  # zsh completions for gh
+  eval "$(gh completion -s zsh)"
+
+  # Handy gh aliases (shell-level, not gh's internal alias)
+  alias ghco='gh pr checkout'
+  alias ghpr='gh pr create -f'
+  alias ghpv='gh pr view -w'
+  alias ghcl='gh repo clone'
+fi
+
+# Starship (guarded)
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+fi
