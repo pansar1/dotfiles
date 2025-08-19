@@ -1,40 +1,55 @@
-# single-line prompt, no extra newline
+# ==========================
+# Starship: Modern Pimped Prompt
+# ==========================
+
+# General
 add_newline = false
 
-# Clean two-line prompt with subtle status line
+# --------------------------
+# Prompt format
+# --------------------------
 format = """
-$username$hostname$directory$git_branch$git_status$cmd_duration$time
+$username$hostname $directory$git_branch$git_status$cmd_duration$time
 $character
 """
 
+# --------------------------
+# Prompt character
+# --------------------------
 [character]
-success_symbol = "[❯](bold green)"
-error_symbol = "[❯](bold red)"
-vicmd_symbol = "[❮](bold yellow)"
+success_symbol = "[❯](bold #50fa7b)"     # green
+error_symbol   = "[❯](bold #ff5555)"     # red
+vicmd_symbol   = "[❮](bold #f1fa8c)"     # yellow
 format = "$symbol "
 
+# --------------------------
+# Directory
+# --------------------------
 [directory]
-style = "bold cyan"
+style = "bold #8be9fd"          # cyan
 truncation_length = 3
 truncate_to_repo = false
 read_only = " "
-read_only_style = "dimmed red"
-# e.g. ~/p/r/project instead of full path
+read_only_style = "dimmed #ff5555"
 
+# --------------------------
+# Git branch
+# --------------------------
 [git_branch]
-format = "[$symbol$branch]($style) "
 symbol = " "
-style = "bold purple"
+style = "bold #ff79c6"           # magenta
 only_attached = true
+format = "[$symbol$branch]($style) "
 
+# --------------------------
+# Git status
+# --------------------------
 [git_status]
+style = "dimmed #f1fa8c"         # yellow
 format = '([$all_status$ahead_behind]($style) )'
-style = "yellow"
-# Minimal: no verbose counts unless meaningful
 conflicted = "!"
-stashed = "*"
-modified = "+"
 staged = "+"
+modified = "~"
 renamed = "»"
 deleted = "x"
 untracked = "?"
@@ -42,30 +57,42 @@ ahead = "⇡"
 behind = "⇣"
 diverged = "⇕"
 
+# --------------------------
+# Command duration
+# --------------------------
 [cmd_duration]
 min_time = 2000
+style = "dimmed #ffb86c"         # orange
 format = "[$duration]($style) "
-style = "dimmed yellow"
 
-# Show time (subtle)
+# --------------------------
+# Time
+# --------------------------
 [time]
 disabled = false
 time_format = "%H:%M"
 format = "[$time]($style) "
-style = "dimmed blue"
+style = "dimmed #6272a4"         # blue
 
-# Show user/host only when it matters
+# --------------------------
+# User
+# --------------------------
 [username]
 show_always = false
-style_user = "bold purple"
 format = "[$user]($style) "
+style_user = "bold #ff79c6"      # magenta
 
+# --------------------------
+# Host
+# --------------------------
 [hostname]
 ssh_only = true
-style = "bold purple"
 format = "[@$hostname]($style) "
+style = "bold #ff79c6"           # magenta
 
-# Disable noisy modules up-front (we can enable later)
+# --------------------------
+# Disabled modules
+# --------------------------
 [battery]
 disabled = true
 [docker_context]
