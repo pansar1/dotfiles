@@ -2,6 +2,8 @@
 
 echo "\n<<< Starting Homebrew Setup >>>\n"
 
+exists() { command -v "$1" >/dev/null 2>&1; }
+
 if exists brew; then
     echo "brew exists, skipping install"
 else

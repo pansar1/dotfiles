@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(brew:*)",
+      "Bash(./install)",
+      "Bash(cat:*)",
+      "Bash(python3:*)",
+      "Bash(./dotbot/bin/dotbot:*)",
+      "Bash(git submodule status:*)",
+      "Bash(bash:*)",
+      "Bash(test:*)",
+      "Bash(git submodule:*)",
+      "Bash(git -C dotbot submodule update --init --recursive)",
+      "Bash(echo:*)",
+      "Bash(ls:*)",
+      "Bash(chsh:*)",
+      "Bash(system_profiler:*)",
+      "Bash(defaults read:*)"
+    ]
+  }
+}
