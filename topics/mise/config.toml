@@ -1,0 +1,15 @@
+[settings]
+# Read .nvmrc, .node-version, .python-version files automatically
+legacy_version_file = true
+# Enable experimental features (better performance, newer features)
+experimental = true
+# Verbose output for debugging (optional, can disable later)
+verbose = false
+
+[tools]
+# Node.js - use LTS as global default
+node = "lts"
+# Python 3.12 (current stable)
+python = "3.12"
+# Go latest version
+go = "latest"
