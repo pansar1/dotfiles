@@ -5,16 +5,22 @@ brew "bat"
 brew "curl"
 # Modern, maintained replacement for ls
 brew "eza"
+# Simple, fast and user-friendly alternative to find
+brew "fd"
 # Command-line fuzzy finder written in Go
 brew "fzf"
 # Distributed revision control system
 brew "git"
+# Syntax-highlighting pager for git, diff, and grep output
+brew "git-delta"
 # User-friendly cURL replacement (command-line HTTP client)
 brew "httpie"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
 # Mac App Store command-line interface
 brew "mas"
+# Search tool like grep and The Silver Searcher
+brew "ripgrep"
 # Cross-shell prompt for astronauts
 brew "starship"
 # Display directories as trees (with optional color/HTML output)
@@ -25,8 +31,14 @@ brew "wget"
 brew "yq"
 # UNIX shell (command interpreter)
 brew "zsh"
-# Next-generation plugin manager for zsh
-brew "zplug"
+
+# === Shell Enhancements ===
+# Modern ZSH plugin manager
+brew "antidote"
+# Magical shell history
+brew "atuin"
+# Smarter cd command, inspired by z and autojump
+brew "zoxide"
 
 # === Cloud & Container Tools ===
 # Official Amazon AWS command-line interface
@@ -42,17 +54,13 @@ brew "kubernetes-cli"
 # Tool that can switch between kubectl contexts easily and create aliases
 brew "kubectx"
 
+# === Version Management ===
+# Polyglot runtime manager (node, python, go, etc.)
+brew "mise"
+
 # === Language Tools ===
-# Open source programming language to build simple/reliable/efficient software
-brew "go"
 # Fast linters runner for Go
 brew "golangci-lint"
-# Open-source, cross-platform JavaScript runtime environment
-brew "node"
-# Fast, disk space efficient package manager
-brew "pnpm"
-# JavaScript toolchain manager for reproducible environments
-brew "volta"
 
 # === Development Apps ===
 # Opensource IDE for exploring and testing APIs
@@ -62,20 +70,14 @@ cask "claude-code"
 cask "font-hack-nerd-font"
 # Set of tools to manage resources and applications hosted on Google Cloud
 cask "gcloud-cli"
-# HTTP and GraphQL Client
-cask "insomnia"
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
 # Reverse proxy, secure introspectable tunnels to localhost
 cask "ngrok"
 # Control your tools with a few keystrokes
 cask "raycast"
-# Move and resize windows using keyboard shortcuts or snap areas
-cask "rectangle"
 # Team communication and collaboration software
 cask "slack"
-# Git client
-cask "sublime-merge"
 # Native GUI tool for relational databases
 cask "tableplus"
 # Open-source code editor
