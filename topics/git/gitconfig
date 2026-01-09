@@ -45,6 +45,44 @@
 [core]
 
 	excludesfile = /Users/adamoldin/.gitignore
+	# Use delta for better diffs
+	pager = delta
+
+[interactive]
+
+	# Use delta for interactive commands (git add -p, etc.)
+	diffFilter = delta --color-only
+
+[delta]
+
+	# Enable line numbers
+	line-numbers = true
+	# Navigate through diffs with n/N
+	navigate = true
+	# Dark mode theme (matches Starship/Dracula)
+	dark = true
+	# Syntax highlighting theme
+	syntax-theme = Dracula
+	# Side-by-side view for large diffs
+	side-by-side = false
+	# Show file paths
+	file-style = bold yellow ul
+	file-decoration-style = none
+	# Show line numbers with custom style
+	line-numbers-left-style = cyan
+	line-numbers-right-style = cyan
+	line-numbers-minus-style = 124
+	line-numbers-plus-style = 28
+
+[merge]
+
+	# Show common ancestor in merge conflicts
+	conflictstyle = diff3
+
+[diff]
+
+	# Detect moved lines in diffs
+	colorMoved = default
 
 [push]
 
