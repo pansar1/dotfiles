@@ -15,7 +15,32 @@
       "Bash(ls:*)",
       "Bash(chsh:*)",
       "Bash(system_profiler:*)",
-      "Bash(defaults read:*)"
+        "Bash(defaults read:*)",
+      "Bash(git config:*)",
+      "Bash(git -C /Users/adamoldin/.dotfiles remote:*)",
+      "Bash(gh:*)",
+      "Bash(/opt/homebrew/bin/gh --version)",
+      "Bash(/opt/homebrew/bin/gh auth status)",
+      "Bash(/opt/homebrew/bin/gh auth login)",
+      "Bash(/opt/homebrew/bin/gh api:*)",
+      "Bash(/opt/homebrew/bin/gh issue create:*)",
+      "Bash(export GH_REPO=\"pansar1/dotfiles\")",
+      "Bash(/opt/homebrew/bin/gh label list)",
+      "Bash(/opt/homebrew/bin/gh label list -R pansar1/dotfiles)",
+      "Bash(/opt/homebrew/bin/gh label create \"setup\" --color \"0075ca\" --description \"Initial setup and infrastructure\" -R pansar1/dotfiles)",
+      "Bash(/opt/homebrew/bin/gh label create \"packages\" --color \"1d76db\" --description \"Package management\" -R pansar1/dotfiles)",
+      "Bash(/opt/homebrew/bin/gh label create \"cleanup\" --color \"fef2c0\" --description \"Code cleanup and organization\" -R pansar1/dotfiles)",
+      "Bash(/opt/homebrew/bin/gh label create \"mise\" --color \"fbca04\" --description \"mise runtime manager\" -R pansar1/dotfiles)",
+      "Bash(/opt/homebrew/bin/gh label create \"version-management\" --color \"fbca04\" --description \"Version management\" -R pansar1/dotfiles)",
+      "Bash(/opt/homebrew/bin/gh label create \"zsh\" --color \"c2e0c6\" --description \"ZSH shell configuration\" -R pansar1/dotfiles)",
+      "Bash(/opt/homebrew/bin/gh label create \"shell\" --color \"c2e0c6\" --description \"Shell configuration\" -R pansar1/dotfiles)",
+      "Bash(/opt/homebrew/bin/gh label create \"refactor\" --color \"fef2c0\" --description \"Refactoring\" -R pansar1/dotfiles)",
+      "Bash(/opt/homebrew/bin/gh label create \"tools\" --color \"bfdadc\" --description \"CLI tools and utilities\" -R pansar1/dotfiles)",
+      "Bash(/opt/homebrew/bin/gh label create \"productivity\" --color \"bfdadc\" --description \"Productivity improvements\" -R pansar1/dotfiles)",
+      "Bash(/opt/homebrew/bin/gh label create \"installation\" --color \"0075ca\" --description \"Installation scripts\" -R pansar1/dotfiles)",
+      "Bash(/opt/homebrew/bin/gh label create \"automation\" --color \"0075ca\" --description \"Automation\" -R pansar1/dotfiles)",
+      "Bash(/opt/homebrew/bin/gh label create \"testing\" --color \"d4c5f9\" --description \"Testing\" -R pansar1/dotfiles)",
+      "Bash(/opt/homebrew/bin/gh label create \"verification\" --color \"d4c5f9\" --description \"Verification and validation\" -R pansar1/dotfiles)"
     ]
   }
 }
