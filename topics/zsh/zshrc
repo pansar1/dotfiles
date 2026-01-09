@@ -1,14 +1,39 @@
-# Source google-cloud-sdk (guarded)
-if [ -s "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc" ]; then
-  source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-fi
-if [ -s "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc" ]; then
-  source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+# ============================================================================
+# ZSH Configuration
+# Modern, modular shell setup
+# ============================================================================
+
+# ------------------------------
+# Early Setup
+# ------------------------------
+
+# Ensure Homebrew is in PATH early
+if [[ -d /opt/homebrew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
-# Set variables
-# Syntax highlighting for man pages (only if bat is available)
+# XDG Base Directory specification
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+
+# ZSH directories (prevent clutter in ~)
+export ZSH_CACHE_DIR="${XDG_CACHE_HOME}/zsh"
+export ZSH_DATA_DIR="${XDG_DATA_HOME}/zsh"
+mkdir -p "$ZSH_CACHE_DIR" "$ZSH_DATA_DIR"
+
+# ------------------------------
+# Environment Variables
+# ------------------------------
+
+# Editor
+export EDITOR="code"
+export VISUAL="$EDITOR"
+
+# Homebrew
 export HOMEBREW_CASK_OPTS="--no-quarantine"
+
+# Better man pages with bat (if available)
 if command -v bat >/dev/null 2>&1; then
   export MANPAGER="sh -c 'col -bx | bat -l man -p'"
   export NULLCMD=bat
@@ -16,112 +41,180 @@ else
   export MANPAGER="less -R"
   export NULLCMD=cat
 fi
-export N_PREFIX="$HOME/.n"
-export PREFIX="$N_PREFIX"
-# Avoid subshell to `brew` here; use fixed Homebrew path
-export ZPLUG_HOME="/opt/homebrew/opt/zplug"
 
-# Create Aliases
-alias bbd='brew bundle dump --force --describe'
-alias trail='<<<${(F)path}'
-alias rm='trash'
-alias goutm='git checkout master'
-alias gmain='git checkout main'
-alias yoink="git pull"
-alias yeet="git push"
-alias dl="cd ~/Downloads"
-alias dt="cd ~/Desktop"
-alias g="git"
-alias gpu="g pu"
-alias gl="g l"
-alias gs="g s"
-
-# PATH additions (ensure Homebrew first, then your tools)
-case ":$PATH:" in
-  *":/opt/homebrew/bin:"*) ;;
-  *) export PATH="/opt/homebrew/bin:$PATH" ;;
-esac
-case ":$PATH:" in
-  *":/opt/homebrew/sbin:"*) ;;
-  *) export PATH="/opt/homebrew/sbin:$PATH" ;;
-esac
-
-case ":$PATH:" in
-  *":$N_PREFIX/bin:"*) ;;
-  *) export PATH="$N_PREFIX/bin:$PATH" ;;
-esac
-
-case ":$PATH:" in
-  *":/Applications/Visual Studio Code.app/Contents/Resources/app/bin:"*) ;;
-  *) export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin" ;;
-esac
-
-# Write Handy Functions
-function mkcd() {
- mkdir -p "$@" && cd "$_";
-}
-
-# Improve autosuggestions visibility before loading plugin
+# ZSH autosuggestions styling (subtle gray)
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#6b7280"
 
-# Plugins (guarded)
-if [ -s "$ZPLUG_HOME/init.zsh" ]; then
-  source "$ZPLUG_HOME/init.zsh"
-  if command -v zplug >/dev/null 2>&1; then
-  zplug "plugins/git",   from:oh-my-zsh
-    zplug "zsh-users/zsh-autosuggestions"
-    zplug "zsh-users/zsh-history-substring-search"
-    zplug "zsh-users/zsh-syntax-highlighting"
-    zplug "b4b4r07/enhancd"
-    zplug "junegunn/fzf"
-    zplug "g-plane/zsh-yarn-autocompletions"
-    zplug 'dracula/zsh', as:theme
+# History configuration
+export HISTSIZE=10000
+export SAVEHIST=10000
+export HISTFILE="${ZSH_DATA_DIR}/history"
 
-    # Ensure plugins are installed and loaded
-    if ! zplug check --verbose; then
-      zplug install
-    fi
-    zplug load
+# ------------------------------
+# Mise - Runtime Version Manager
+# ------------------------------
 
-    # Bind Ctrl-f to accept the current autosuggestion (if available)
-    if [[ -n ${widgets[autosuggest-accept]} ]]; then
-      bindkey '^f' autosuggest-accept
-    fi
+# CRITICAL: Activate mise early (before plugins need Node/Python/Go)
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+fi
+
+# ------------------------------
+# Completion System
+# ------------------------------
+
+# Initialize completion system (must be before plugins that use compdef)
+autoload -Uz compinit
+compinit -d "${ZSH_CACHE_DIR}/.zcompdump"
+
+# ------------------------------
+# Antidote - Plugin Manager
+# ------------------------------
+
+# Load antidote plugin manager
+if [[ -f /opt/homebrew/opt/antidote/share/antidote/antidote.zsh ]]; then
+  source /opt/homebrew/opt/antidote/share/antidote/antidote.zsh
+
+  # Load plugins from ~/.config/zsh/plugins.txt
+  if [[ -f "${ZDOTDIR:-$HOME}/.dotfiles/topics/zsh/plugins.txt" ]]; then
+    antidote load "${ZDOTDIR:-$HOME}/.dotfiles/topics/zsh/plugins.txt"
+  fi
+
+  # Keybindings for plugins
+  # Ctrl-f to accept autosuggestion
+  bindkey '^f' autosuggest-accept
+
+  # Up/down for history substring search
+  bindkey '^[[A' history-substring-search-up
+  bindkey '^[[B' history-substring-search-down
+fi
+
+# ------------------------------
+# Source Topic Files
+# ------------------------------
+
+# Enable recursive globbing for ** pattern
+setopt EXTENDED_GLOB
+
+# Source all .zsh files in topics/ (aliases, functions, tool configs)
+# This includes:
+#   - topics/zsh/aliases.zsh
+#   - topics/zsh/functions.zsh
+#   - topics/mise/mise.zsh
+#   - topics/tools/*.zsh (we'll create these in Issue #5)
+
+DOTFILES_DIR="${ZDOTDIR:-$HOME}/.dotfiles"
+
+if [[ -d "$DOTFILES_DIR/topics" ]]; then
+  # Source files from each topic directory
+  for topic_dir in "$DOTFILES_DIR/topics"/*(/); do
+    for topic_file in "$topic_dir"/*.zsh(N); do
+      # Skip this file (zshrc itself)
+      [[ "$(basename "$topic_file")" == "zshrc" ]] && continue
+      # Skip zshenv and zprofile
+      [[ "$(basename "$topic_file")" =~ ^(zshenv|zprofile)$ ]] && continue
+
+      source "$topic_file"
+    done
+  done
+fi
+
+# ------------------------------
+# Modern Tool Integrations
+# ------------------------------
+
+# Zoxide - smart cd replacement
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
+
+# Atuin - shell history
+if command -v atuin >/dev/null 2>&1; then
+  eval "$(atuin init zsh)"
+fi
+
+# FZF - fuzzy finder
+if command -v fzf >/dev/null 2>&1; then
+  # Key bindings (Ctrl-r for history, Ctrl-t for files)
+  source <(fzf --zsh)
+
+  # Use fd for fzf if available (respects .gitignore)
+  if command -v fd >/dev/null 2>&1; then
+    export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+  fi
+
+  # Use bat for preview if available
+  if command -v bat >/dev/null 2>&1; then
+    export FZF_CTRL_T_OPTS="--preview 'bat --color=always --line-range=:500 {}'"
   fi
 fi
 
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-command -v go >/dev/null 2>&1 && export PATH="$PATH:$(go env GOPATH)/bin"
-export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
-
-# pnpm
-export PNPM_HOME="/Users/adamoldin/Library/pnpm"
-export PATH="$PNPM_HOME:$PATH"
-# pnpm end
-
-# bun completions
-[ -s "/Users/adamoldin/.bun/_bun" ] && source "/Users/adamoldin/.bun/_bun"
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/adamoldin/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
-
-# GitHub CLI (guarded)
+# GitHub CLI completions
 if command -v gh >/dev/null 2>&1; then
-  # zsh completions for gh
   eval "$(gh completion -s zsh)"
-
-  # Handy gh aliases (shell-level, not gh's internal alias)
-  alias ghco='gh pr checkout'
-  alias ghpr='gh pr create -f'
-  alias ghpv='gh pr view -w'
-  alias ghcl='gh repo clone'
 fi
 
-# Starship (guarded)
+# ------------------------------
+# Cloud & Container Tools
+# ------------------------------
+
+# Google Cloud SDK
+if [[ -f "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc" ]]; then
+  source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+fi
+
+if [[ -f "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc" ]]; then
+  source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+fi
+
+# ------------------------------
+# Additional PATH entries
+# ------------------------------
+
+# VS Code
+if [[ -d "/Applications/Visual Studio Code.app/Contents/Resources/app/bin" ]]; then
+  export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+fi
+
+# libpq (PostgreSQL client)
+if [[ -d "/opt/homebrew/opt/libpq/bin" ]]; then
+  export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+fi
+
+# Go binaries (if Go is available via mise)
+if command -v go >/dev/null 2>&1; then
+  export PATH="$PATH:$(go env GOPATH)/bin"
+fi
+
+# Bun
+if [[ -d "$HOME/.bun" ]]; then
+  export BUN_INSTALL="$HOME/.bun"
+  export PATH="$BUN_INSTALL/bin:$PATH"
+
+  # Bun completions
+  [[ -s "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"
+fi
+
+# Rancher Desktop
+if [[ -d "$HOME/.rd/bin" ]]; then
+  export PATH="$HOME/.rd/bin:$PATH"
+fi
+
+# ------------------------------
+# Prompt (Starship)
+# ------------------------------
+
+# Load Starship prompt (MUST be last!)
 if command -v starship >/dev/null 2>&1; then
   eval "$(starship init zsh)"
 fi
+
+# ------------------------------
+# Welcome Message (optional)
+# ------------------------------
+
+# Uncomment to show a welcome message
+# if [[ -o interactive ]]; then
+#   echo "🚀 Welcome! Shell loaded in ${(M)$(( $(date +%s%N) - $__start_time ))%????} ms"
+# fi

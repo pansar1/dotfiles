@@ -1,0 +1,46 @@
+# ============================================================================
+# ZSH Plugins (managed by antidote)
+# ============================================================================
+#
+# Syntax:
+#   - username/repo-name             # Clone from GitHub
+#   - username/repo-name path:subdir # Load specific subdirectory
+#   - username/repo-name branch:name # Use specific branch
+#
+# To update plugins: antidote update
+# To see installed plugins: antidote list
+#
+# ============================================================================
+
+# ------------------------------
+# Core ZSH Enhancements
+# ------------------------------
+
+# Additional completion definitions
+zsh-users/zsh-completions
+
+# Fish-like autosuggestions (suggests commands as you type)
+zsh-users/zsh-autosuggestions
+
+# Fish-like syntax highlighting
+zsh-users/zsh-syntax-highlighting
+
+# History substring search (press up/down to filter history)
+zsh-users/zsh-history-substring-search
+
+# ------------------------------
+# Oh-My-Zsh Plugins
+# ------------------------------
+
+# Git aliases and completions
+ohmyzsh/ohmyzsh path:plugins/git
+
+# Docker completions
+ohmyzsh/ohmyzsh path:plugins/docker
+
+# Node/npm completions
+ohmyzsh/ohmyzsh path:plugins/node
+ohmyzsh/ohmyzsh path:plugins/npm
+
+# Python completions
+ohmyzsh/ohmyzsh path:plugins/python

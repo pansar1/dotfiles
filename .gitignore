@@ -3,6 +3,9 @@ Brewfile.lock.json
 # Claude local settings
 .claude/
 
+# Antidote generated plugin loader
+topics/zsh/plugins.zsh
+
 # Folder view configuration files
 .DS_Store
 Desktop.ini
