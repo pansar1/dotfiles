@@ -7,10 +7,19 @@
 # Early Setup
 # ------------------------------
 
-# Ensure Homebrew is in PATH early
-if [[ -d /opt/homebrew ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
+# Ensure Homebrew is in PATH early (platform-specific)
+{{- if eq .chezmoi.os "darwin" }}
+{{-   if eq .chezmoi.arch "arm64" }}
+# Apple Silicon Mac
+eval "$(/opt/homebrew/bin/brew shellenv)"
+{{-   else }}
+# Intel Mac
+eval "$(/usr/local/bin/brew shellenv)"
+{{-   end }}
+{{- else if eq .chezmoi.os "linux" }}
+# Linux (Homebrew on Linux)
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+{{- end }}
 
 # XDG Base Directory specification
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
@@ -75,9 +84,9 @@ compinit -d "${ZSH_CACHE_DIR}/.zcompdump"
 if [[ -f /opt/homebrew/opt/antidote/share/antidote/antidote.zsh ]]; then
   source /opt/homebrew/opt/antidote/share/antidote/antidote.zsh
 
-  # Load plugins from ~/.config/zsh/plugins.txt
-  if [[ -f "${ZDOTDIR:-$HOME}/.dotfiles/topics/zsh/plugins.txt" ]]; then
-    antidote load "${ZDOTDIR:-$HOME}/.dotfiles/topics/zsh/plugins.txt"
+  # Load plugins from chezmoi source
+  if [[ -f "{{ .chezmoi.sourceDir }}/topics/zsh/plugins.txt" ]]; then
+    antidote load "{{ .chezmoi.sourceDir }}/topics/zsh/plugins.txt"
   fi
 
   # Keybindings for plugins
@@ -103,7 +112,7 @@ setopt EXTENDED_GLOB
 #   - topics/mise/mise.zsh
 #   - topics/tools/*.zsh (we'll create these in Issue #5)
 
-DOTFILES_DIR="${ZDOTDIR:-$HOME}/.dotfiles"
+DOTFILES_DIR="{{ .chezmoi.sourceDir }}"
 
 if [[ -d "$DOTFILES_DIR/topics" ]]; then
   # Source files from each topic directory

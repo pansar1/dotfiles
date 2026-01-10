@@ -15,7 +15,26 @@
       "Bash(ls:*)",
       "Bash(chsh:*)",
       "Bash(system_profiler:*)",
-      "Bash(defaults read:*)"
+      "Bash(defaults read:*)",
+      "Bash(tree:*)",
+      "Bash(git add:*)",
+      "Bash(git restore:*)",
+      "Bash(git commit:*)",
+      "Bash(mise install:*)",
+      "Bash(mise use:*)",
+      "Bash(mise ls:*)",
+      "Bash(mise current:*)",
+      "Bash(mise exec:*)",
+      "Bash(mise exec -- npm -v)",
+      "Bash([ -d ~/.n ])",
+      "Bash([ -d ~/.volta ])",
+      "Bash([ -d ~/.nvm ])",
+      "Bash(chmod:*)",
+      "Bash(setopt)",
+      "Bash(source ~/.dotfiles/topics/zsh/functions.zsh)",
+      "Bash(current-branch:*)",
+      "WebSearch",
+      "Bash(chezmoi init:*)"
     ]
   }
 }
