@@ -34,7 +34,8 @@
       "Bash(source ~/.dotfiles/topics/zsh/functions.zsh)",
       "Bash(current-branch:*)",
       "WebSearch",
-      "Bash(chezmoi init:*)"
+      "Bash(chezmoi init:*)",
+      "Bash(git -C /Users/adamoldin/.dotfiles rm:*)"
     ]
   }
 }
