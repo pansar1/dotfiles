@@ -25,8 +25,9 @@ eval "$($BREW_PATH shellenv)"
 
 if [[ -f "$BREWFILE" ]]; then
     echo "Installing packages from Brewfile..."
-    brew bundle --file="$BREWFILE"
-    echo "✓ Packages installed"
+    # Don't fail if some packages are unavailable on this platform
+    brew bundle --file="$BREWFILE" || echo "⚠️  Some packages failed to install (expected on Linux)"
+    echo "✓ Brewfile processed"
 fi
 
 if command -v mise &> /dev/null; then
