@@ -3,12 +3,34 @@ set -e
 
 BREWFILE="{{ .chezmoi.sourceDir }}/Brewfile"
 
+# Detect Homebrew path (platform-specific)
+{{- if eq .chezmoi.os "darwin" }}
+{{-   if eq .chezmoi.arch "arm64" }}
+BREW_PATH="/opt/homebrew/bin/brew"
+{{-   else }}
+BREW_PATH="/usr/local/bin/brew"
+{{-   end }}
+{{- else if eq .chezmoi.os "linux" }}
+BREW_PATH="/home/linuxbrew/.linuxbrew/bin/brew"
+{{- end }}
+
+# Only proceed if Homebrew is installed
+if [[ ! -x "$BREW_PATH" ]]; then
+    echo "⚠️  Homebrew not found at $BREW_PATH, skipping package installation"
+    exit 0
+fi
+
+# Add Homebrew to PATH for this session
+eval "$($BREW_PATH shellenv)"
+
 if [[ -f "$BREWFILE" ]]; then
+    echo "Installing packages from Brewfile..."
     brew bundle --file="$BREWFILE"
     echo "✓ Packages installed"
 fi
 
 if command -v mise &> /dev/null; then
+    echo "Installing mise runtimes..."
     mise install
     echo "✓ Mise runtimes installed"
 fi
