@@ -1,0 +1,71 @@
+#!/bin/bash
+# Sync shared AI configs to tool-specific locations
+# This script runs automatically when AI config files change (chezmoi's run_onchange)
+
+set -e
+
+echo "🤖 Syncing AI configurations..."
+
+AI_CONFIG_DIR="$HOME/.config/ai"
+MCP_SERVERS="$AI_CONFIG_DIR/mcp/servers.json"
+
+# Check if jq is installed
+if ! command -v jq &> /dev/null; then
+    echo "⚠️  Warning: jq not found. MCP server syncing will be skipped."
+    echo "   Install jq with: brew install jq"
+    JQ_AVAILABLE=false
+else
+    JQ_AVAILABLE=true
+fi
+
+# 1. Sync MCP servers to Claude Code (merge into ~/.claude.json)
+if [ "$JQ_AVAILABLE" = true ] && [ -f "$MCP_SERVERS" ]; then
+    echo "🔌 Syncing MCP servers to Claude Code..."
+    if [ -f "$HOME/.claude.json" ]; then
+        # Create backup
+        cp "$HOME/.claude.json" "$HOME/.claude.json.backup"
+
+        # Merge mcpServers from shared config into ~/.claude.json
+        jq --slurpfile mcp "$MCP_SERVERS" '.mcpServers = $mcp[0].mcpServers' "$HOME/.claude.json" > "$HOME/.claude.json.tmp"
+        mv "$HOME/.claude.json.tmp" "$HOME/.claude.json"
+        echo "   ✓ MCP servers synced to ~/.claude.json"
+    else
+        echo "   ⚠️  ~/.claude.json not found (Claude Code may not be set up yet)"
+    fi
+fi
+
+# 2. Sync to Cursor (if installed)
+if [ -f "$MCP_SERVERS" ]; then
+    if [ -d "$HOME/.cursor" ] || [ -f "$HOME/.cursor/mcp.json" ]; then
+        echo "🔌 Syncing MCP servers to Cursor..."
+        mkdir -p "$HOME/.cursor"
+        cp "$MCP_SERVERS" "$HOME/.cursor/mcp.json"
+        echo "   ✓ MCP servers synced to ~/.cursor/mcp.json"
+    fi
+fi
+
+# 3. Sync to Cline (if installed)
+CLINE_DIR="$HOME/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings"
+if [ -f "$MCP_SERVERS" ] && [ -d "$CLINE_DIR" ]; then
+    echo "🔌 Syncing MCP servers to Cline..."
+    cp "$MCP_SERVERS" "$CLINE_DIR/cline_mcp_settings.json"
+    echo "   ✓ MCP servers synced to Cline"
+fi
+
+# 4. Sync to VS Code Copilot (if installed) - transform format
+VSCODE_USER_DIR="$HOME/Library/Application Support/Code/User"
+if [ "$JQ_AVAILABLE" = true ] && [ -f "$MCP_SERVERS" ]; then
+    if [ -d "$VSCODE_USER_DIR" ]; then
+        echo "🔌 Syncing MCP servers to VS Code Copilot..."
+        # Transform "mcpServers" to "servers" for VS Code format
+        jq '{servers: .mcpServers}' "$MCP_SERVERS" > "$VSCODE_USER_DIR/mcp.json"
+        echo "   ✓ MCP servers synced to VS Code Copilot (format transformed)"
+    fi
+fi
+
+echo "✅ AI configuration sync complete!"
+echo ""
+echo "Next steps:"
+echo "  • Restart your AI coding assistants to load new MCP servers"
+echo "  • Edit ~/.config/ai/mcp/servers.json to add more servers"
+echo "  • Run 'chezmoi apply' to sync changes across machines"
