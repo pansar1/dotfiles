@@ -1,6 +1,8 @@
 # === Core CLI Tools ===
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
+# Secure and free password manager for all of your devices
+brew "bitwarden-cli"
 # Get a file from an HTTP, HTTPS or FTP server
 brew "curl"
 # Modern, maintained replacement for ls
@@ -9,6 +11,8 @@ brew "eza"
 brew "fd"
 # Command-line fuzzy finder written in Go
 brew "fzf"
+# GitHub command-line tool
+brew "gh"
 # Distributed revision control system
 brew "git"
 # Syntax-highlighting pager for git, diff, and grep output
@@ -41,14 +45,12 @@ brew "atuin"
 brew "zoxide"
 
 # === Cloud & Container Tools ===
-# Official Amazon AWS command-line interface
-brew "awscli"
+# Lightweight Docker/container runtime
+brew "colima"
 # Pack, ship and run any application as a lightweight container
 brew "docker"
 # Isolated development environments using Docker
 brew "docker-compose"
-# Docker Credential Helper for Amazon ECR
-brew "docker-credential-helper-ecr"
 # Kubernetes command-line interface
 brew "kubernetes-cli"
 # Tool that can switch between kubectl contexts easily and create aliases
@@ -68,16 +70,12 @@ cask "bruno"
 # Terminal-based AI coding assistant
 cask "claude-code"
 cask "font-hack-nerd-font"
-# Set of tools to manage resources and applications hosted on Google Cloud
-cask "gcloud-cli"
 # Terminal emulator as alternative to Apple's Terminal app
 cask "iterm2"
 # Reverse proxy, secure introspectable tunnels to localhost
 cask "ngrok"
 # Control your tools with a few keystrokes
 cask "raycast"
-# Team communication and collaboration software
-cask "slack"
 # Native GUI tool for relational databases
 cask "tableplus"
 # Open-source code editor
@@ -117,3 +115,30 @@ vscode "vitest.explorer"
 vscode "wix.vscode-import-cost"
 vscode "wmaurer.change-case"
 vscode "yoavbls.pretty-ts-errors"
+
+# ============================================================================
+# WORK-ONLY PACKAGES
+# ============================================================================
+{{ if eq .machine_type "work" }}
+# AWS ECR credential helper
+brew "docker-credential-helper-ecr"
+# Official Amazon AWS command-line interface
+brew "awscli"
+# Set of tools to manage resources and applications hosted on Google Cloud
+cask "gcloud-cli"
+# Team communication and collaboration software
+cask "slack"
+{{ end }}
+
+# ============================================================================
+# PERSONAL-ONLY PACKAGES
+# ============================================================================
+{{ if eq .machine_type "personal" }}
+# Security
+cask "lulu"
+cask "knockknock"
+cask "malwarebytes"
+cask "nordvpn"
+# Emulators
+cask "desmume"
+{{ end }}

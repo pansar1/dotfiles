@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-BREWFILE="{{ .chezmoi.sourceDir }}/Brewfile"
+BREWFILE_TMPL="{{ .chezmoi.sourceDir }}/Brewfile.tmpl"
+BREWFILE_OUT="/tmp/Brewfile.generated"
 
 # Detect Homebrew path (platform-specific)
 {{- if eq .chezmoi.os "darwin" }}
@@ -23,10 +24,13 @@ fi
 # Add Homebrew to PATH for this session
 eval "$($BREW_PATH shellenv)"
 
-if [[ -f "$BREWFILE" ]]; then
+if [[ -f "$BREWFILE_TMPL" ]]; then
+    echo "Processing Brewfile template (machine_type={{ .machine_type }})..."
+    chezmoi execute-template < "$BREWFILE_TMPL" > "$BREWFILE_OUT"
     echo "Installing packages from Brewfile..."
     # Don't fail if some packages are unavailable on this platform
-    brew bundle --file="$BREWFILE" || echo "⚠️  Some packages failed to install (expected on Linux)"
+    brew bundle --file="$BREWFILE_OUT" || echo "⚠️  Some packages failed to install (expected on Linux)"
+    rm -f "$BREWFILE_OUT"
     echo "✓ Brewfile processed"
 fi
 
