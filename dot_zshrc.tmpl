@@ -39,9 +39,16 @@ mkdir -p "$ZSH_CACHE_DIR" "$ZSH_DATA_DIR"
 export EDITOR="code"
 export VISUAL="$EDITOR"
 
-# GitHub tokens (from Bitwarden - requires: bw unlock && export BW_SESSION=...)
+# GitHub tokens (from Bitwarden)
+# On first run: tokens are empty. After `bw unlock && export BW_SESSION=...`, run `chezmoi apply` again.
+{{- if env "BW_SESSION" }}
 export GITHUB_TOKEN="{{ (bitwarden "item" "GITHUB_MCP_PAT").login.password }}"
 export NODE_AUTH_TOKEN="{{ (bitwarden "item" "NODE_AUTH_TOKEN_SKAPA").login.password }}"
+{{- else }}
+# BW_SESSION not set - run: bw login && export BW_SESSION=$(bw unlock --raw) && chezmoi apply
+export GITHUB_TOKEN=""
+export NODE_AUTH_TOKEN=""
+{{- end }}
 
 # Homebrew
 export HOMEBREW_CASK_OPTS="--no-quarantine"
