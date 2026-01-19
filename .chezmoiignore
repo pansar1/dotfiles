@@ -3,11 +3,8 @@ LICENSE
 *.md
 Brewfile.tmpl
 Brewfile.lock.json
-install.conf.yaml
-install
 topics/
 scripts/
-dotbot/
 docs/
 .git/
 .gitignore
