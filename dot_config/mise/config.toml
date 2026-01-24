@@ -13,3 +13,5 @@ node = "lts"
 python = "3.12"
 # Go latest version
 go = "latest"
+# Rust latest version
+rust = "latest"

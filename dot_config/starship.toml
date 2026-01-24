@@ -102,7 +102,7 @@ disabled = true
 [nodejs]
 disabled = true
 [rust]
-disabled = true
+disabled = false
 [golang]
 disabled = true
 [python]
