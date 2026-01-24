@@ -23,6 +23,31 @@ These instructions apply across all AI coding assistants and projects.
 - **Editor**: VS Code
 - **Git**: Use delta for diffs when available
 
+## Terminal Learning Goal
+
+I'm actively learning to be more productive in the terminal. When solving problems:
+
+- **Prefer CLI solutions** over GUI tools or scripts when practical
+- **Show the terminal commands** you're using and briefly explain what they do
+- **Use standard Unix tools** like `cat`, `grep`, `sed`, `awk`, `jq`, `fd`, `rg` (ripgrep), `fzf`
+- **Teach patterns** like piping (`|`), redirects (`>`, `>>`), and command substitution (`$()`)
+- **Suggest aliases** for commands I might use frequently
+- **Show alternatives** - if there's a modern tool (like `fd` vs `find`), mention both
+
+Examples of what I want to learn:
+- Text processing with `grep`, `sed`, `awk`
+- JSON manipulation with `jq`
+- Fuzzy finding with `fzf`
+- File searching with `fd` and `rg`
+- Git commands and workflows
+- Shell scripting patterns
+
+When you run a command, add a brief comment about what it does so I learn:
+```bash
+# Find all TypeScript files modified in the last 7 days
+fd -e ts --changed-within 7d
+```
+
 ## Security
 
 - Never commit secrets, API keys, or credentials

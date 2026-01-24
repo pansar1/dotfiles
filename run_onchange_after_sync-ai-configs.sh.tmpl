@@ -8,6 +8,15 @@ echo "🤖 Syncing AI configurations..."
 
 AI_CONFIG_DIR="$HOME/.config/ai"
 MCP_SERVERS="$AI_CONFIG_DIR/mcp/servers.json"
+GLOBAL_INSTRUCTIONS="$AI_CONFIG_DIR/instructions/global.md"
+
+# 0. Sync global instructions to Claude Code CLAUDE.md
+if [ -f "$GLOBAL_INSTRUCTIONS" ]; then
+    echo "📝 Syncing global instructions to Claude Code..."
+    mkdir -p "$HOME/.claude"
+    cp "$GLOBAL_INSTRUCTIONS" "$HOME/.claude/CLAUDE.md"
+    echo "   ✓ Global instructions synced to ~/.claude/CLAUDE.md"
+fi
 
 # Check if jq is installed
 if ! command -v jq &> /dev/null; then
@@ -63,9 +72,82 @@ if [ "$JQ_AVAILABLE" = true ] && [ -f "$MCP_SERVERS" ]; then
     fi
 fi
 
+# 5. Sync Skills to Claude Code
+SKILLS_DIR="$AI_CONFIG_DIR/skills"
+CLAUDE_SKILLS_DIR="$HOME/.claude/skills"
+if [ -d "$SKILLS_DIR" ]; then
+    echo "🎯 Syncing skills to Claude Code..."
+    mkdir -p "$CLAUDE_SKILLS_DIR"
+
+    # Copy each skill directory
+    for skill in "$SKILLS_DIR"/*/; do
+        if [ -d "$skill" ] && [ -f "$skill/SKILL.md" ]; then
+            skill_name=$(basename "$skill")
+            mkdir -p "$CLAUDE_SKILLS_DIR/$skill_name"
+            cp -r "$skill"* "$CLAUDE_SKILLS_DIR/$skill_name/"
+            echo "   ✓ Synced skill: $skill_name"
+        fi
+    done
+fi
+
+# 6. Sync Skills to Cursor (if installed)
+CURSOR_SKILLS_DIR="$HOME/.cursor/skills"
+if [ -d "$SKILLS_DIR" ] && [ -d "$HOME/.cursor" ]; then
+    echo "🎯 Syncing skills to Cursor..."
+    mkdir -p "$CURSOR_SKILLS_DIR"
+
+    for skill in "$SKILLS_DIR"/*/; do
+        if [ -d "$skill" ] && [ -f "$skill/SKILL.md" ]; then
+            skill_name=$(basename "$skill")
+            mkdir -p "$CURSOR_SKILLS_DIR/$skill_name"
+            cp -r "$skill"* "$CURSOR_SKILLS_DIR/$skill_name/"
+        fi
+    done
+    echo "   ✓ Skills synced to Cursor"
+fi
+
+# 7. Sync Agents to Claude Code
+AGENTS_DIR="$AI_CONFIG_DIR/agents"
+CLAUDE_AGENTS_DIR="$HOME/.claude/agents"
+if [ -d "$AGENTS_DIR" ]; then
+    echo "🤖 Syncing agents to Claude Code..."
+    mkdir -p "$CLAUDE_AGENTS_DIR"
+
+    # Copy each agent file (agents are single .md files, not directories)
+    for agent in "$AGENTS_DIR"/*.md; do
+        if [ -f "$agent" ]; then
+            agent_name=$(basename "$agent")
+            # Skip README
+            if [ "$agent_name" != "README.md" ]; then
+                cp "$agent" "$CLAUDE_AGENTS_DIR/$agent_name"
+                echo "   ✓ Synced agent: ${agent_name%.md}"
+            fi
+        fi
+    done
+fi
+
+# 8. Sync Agents to Cursor (if installed)
+CURSOR_AGENTS_DIR="$HOME/.cursor/agents"
+if [ -d "$AGENTS_DIR" ] && [ -d "$HOME/.cursor" ]; then
+    echo "🤖 Syncing agents to Cursor..."
+    mkdir -p "$CURSOR_AGENTS_DIR"
+
+    for agent in "$AGENTS_DIR"/*.md; do
+        if [ -f "$agent" ]; then
+            agent_name=$(basename "$agent")
+            if [ "$agent_name" != "README.md" ]; then
+                cp "$agent" "$CURSOR_AGENTS_DIR/$agent_name"
+            fi
+        fi
+    done
+    echo "   ✓ Agents synced to Cursor"
+fi
+
 echo "✅ AI configuration sync complete!"
 echo ""
 echo "Next steps:"
-echo "  • Restart your AI coding assistants to load new MCP servers"
-echo "  • Edit ~/.config/ai/mcp/servers.json to add more servers"
+echo "  • Restart your AI coding assistants to load new configs"
+echo "  • Edit ~/.config/ai/mcp/servers.json to add MCP servers"
+echo "  • Edit ~/.config/ai/skills/ to add or modify skills"
+echo "  • Edit ~/.config/ai/agents/ to add or modify agents"
 echo "  • Run 'chezmoi apply' to sync changes across machines"
