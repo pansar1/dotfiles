@@ -29,7 +29,7 @@ export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 # ZSH directories (prevent clutter in ~)
 export ZSH_CACHE_DIR="${XDG_CACHE_HOME}/zsh"
 export ZSH_DATA_DIR="${XDG_DATA_HOME}/zsh"
-mkdir -p "$ZSH_CACHE_DIR" "$ZSH_DATA_DIR"
+mkdir -p "$ZSH_CACHE_DIR/completions" "$ZSH_DATA_DIR"
 
 # ------------------------------
 # Environment Variables
@@ -52,6 +52,8 @@ export NODE_AUTH_TOKEN=""
 
 # Homebrew
 export HOMEBREW_CASK_OPTS="--no-quarantine"
+export HOMEBREW_NO_ENV_HINTS=1
+export HOMEBREW_NO_INSTALL_CLEANUP=1
 
 # Better man pages with bat (if available)
 if command -v bat >/dev/null 2>&1; then
@@ -231,10 +233,21 @@ if command -v starship >/dev/null 2>&1; then
 fi
 
 # ------------------------------
-# Welcome Message (optional)
+# Welcome Message
 # ------------------------------
 
-# Uncomment to show a welcome message
-# if [[ -o interactive ]]; then
-#   echo "🚀 Welcome! Shell loaded in ${(M)$(( $(date +%s%N) - $__start_time ))%????} ms"
-# fi
+if [[ -o interactive ]]; then
+  # Get system stats
+  _date=$(date "+%a %b %d, %H:%M")
+  _uptime=$(uptime | sed 's/.*up //' | sed 's/,.*//' | xargs)
+  _mem=$(memory_pressure 2>/dev/null | awk '/percentage/{printf "%.0f%%", 100-$5}' 2>/dev/null || echo "N/A")
+  _battery=$(pmset -g batt 2>/dev/null | grep -o '[0-9]*%' | head -1 || echo "N/A")
+
+  echo "Hey Adam"
+  echo "${_date}  |  Up ${_uptime}  |  ${_mem} RAM  |  ${_battery}"
+  if command -v fortune >/dev/null 2>&1; then
+    echo ""
+    fortune -s
+  fi
+  echo ""
+fi
