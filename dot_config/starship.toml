@@ -17,27 +17,27 @@ $character
 # Prompt character
 # --------------------------
 [character]
-success_symbol = "[❯](bold #50fa7b)"     # green
-error_symbol   = "[❯](bold #ff5555)"     # red
-vicmd_symbol   = "[❮](bold #f1fa8c)"     # yellow
+success_symbol = "[❯](bold #a6e3a1)"     # catppuccin green
+error_symbol   = "[❯](bold #f38ba8)"     # catppuccin red
+vicmd_symbol   = "[❮](bold #f9e2af)"     # catppuccin yellow
 format = "$symbol "
 
 # --------------------------
 # Directory
 # --------------------------
 [directory]
-style = "bold #8be9fd"          # cyan
+style = "bold #89dceb"          # catppuccin sky
 truncation_length = 3
 truncate_to_repo = false
 read_only = " "
-read_only_style = "dimmed #ff5555"
+read_only_style = "dimmed #f38ba8"
 
 # --------------------------
 # Git branch
 # --------------------------
 [git_branch]
 symbol = " "
-style = "bold #ff79c6"           # magenta
+style = "bold #cba6f7"           # catppuccin mauve
 only_attached = true
 format = "[$symbol$branch]($style) "
 
@@ -45,7 +45,7 @@ format = "[$symbol$branch]($style) "
 # Git status
 # --------------------------
 [git_status]
-style = "dimmed #f1fa8c"         # yellow
+style = "dimmed #f9e2af"         # catppuccin yellow
 format = '([$all_status$ahead_behind]($style) )'
 conflicted = "!"
 staged = "+"
@@ -62,7 +62,7 @@ diverged = "⇕"
 # --------------------------
 [cmd_duration]
 min_time = 2000
-style = "dimmed #ffb86c"         # orange
+style = "dimmed #fab387"         # catppuccin peach
 format = "[$duration]($style) "
 
 # --------------------------
@@ -72,7 +72,7 @@ format = "[$duration]($style) "
 disabled = false
 time_format = "%H:%M"
 format = "[$time]($style) "
-style = "dimmed #6272a4"         # blue
+style = "dimmed #89b4fa"         # catppuccin blue
 
 # --------------------------
 # User
@@ -80,7 +80,7 @@ style = "dimmed #6272a4"         # blue
 [username]
 show_always = false
 format = "[$user]($style) "
-style_user = "bold #ff79c6"      # magenta
+style_user = "bold #cba6f7"      # catppuccin mauve
 
 # --------------------------
 # Host
@@ -88,7 +88,7 @@ style_user = "bold #ff79c6"      # magenta
 [hostname]
 ssh_only = true
 format = "[@$hostname]($style) "
-style = "bold #ff79c6"           # magenta
+style = "bold #cba6f7"           # catppuccin mauve
 
 # --------------------------
 # Disabled modules

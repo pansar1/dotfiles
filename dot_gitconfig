@@ -21,6 +21,10 @@
 	branches = branch --all
 	remotes = remote --verbose
 
+	# Open an origin branch in a new worktree for review.
+	# Usage: git review <branch>
+	review = "!f() { b=\"$1\"; r=$(git rev-parse --show-toplevel); p=\"$r/../$(basename $r)-review-$b\"; git fetch origin \"$b\" && git worktree add -b \"review/$b\" \"$p\" \"origin/$b\" && code \"$p\"; }; f"
+
 	# List aliases.
 	aliases = config --get-regexp alias
 
@@ -59,20 +63,20 @@
 	line-numbers = true
 	# Navigate through diffs with n/N
 	navigate = true
-	# Dark mode theme (matches Starship/Dracula)
+	# Dark mode theme
 	dark = true
-	# Syntax highlighting theme
+	# Syntax highlighting theme (Dracula is closest bundled theme to Catppuccin)
 	syntax-theme = Dracula
 	# Side-by-side view for large diffs
 	side-by-side = false
 	# Show file paths
-	file-style = bold yellow ul
+	file-style = "bold #f9e2af ul"
 	file-decoration-style = none
 	# Show line numbers with custom style
-	line-numbers-left-style = cyan
-	line-numbers-right-style = cyan
-	line-numbers-minus-style = 124
-	line-numbers-plus-style = 28
+	line-numbers-left-style = "#7f849c"
+	line-numbers-right-style = "#7f849c"
+	line-numbers-minus-style = "#f38ba8"
+	line-numbers-plus-style = "#a6e3a1"
 
 [merge]
 
