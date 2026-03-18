@@ -39,17 +39,6 @@ mkdir -p "$ZSH_CACHE_DIR/completions" "$ZSH_DATA_DIR"
 export EDITOR="code"
 export VISUAL="$EDITOR"
 
-# GitHub tokens (from Bitwarden)
-# On first run: tokens are empty. After `bw unlock && export BW_SESSION=...`, run `chezmoi apply` again.
-{{- if env "BW_SESSION" }}
-export GITHUB_TOKEN="{{ (bitwarden "item" "GITHUB_MCP_PAT").login.password }}"
-export NODE_AUTH_TOKEN="{{ (bitwarden "item" "NODE_AUTH_TOKEN_SKAPA").login.password }}"
-{{- else }}
-# BW_SESSION not set - run: bw login && export BW_SESSION=$(bw unlock --raw) && chezmoi apply
-export GITHUB_TOKEN=""
-export NODE_AUTH_TOKEN=""
-{{- end }}
-
 # Homebrew
 export HOMEBREW_CASK_OPTS="--no-quarantine"
 export HOMEBREW_NO_ENV_HINTS=1
@@ -144,6 +133,12 @@ fi
 # ------------------------------
 # Modern Tool Integrations
 # ------------------------------
+
+# fnox - secret manager (loads secrets from ~/.config/fnox/config.toml + project fnox.toml)
+# Bootstrap on new machine: fnox set GITHUB_TOKEN --global && fnox set NODE_AUTH_TOKEN --global
+if command -v fnox >/dev/null 2>&1; then
+  eval "$(fnox activate zsh)"
+fi
 
 # Zoxide - smart cd replacement
 if command -v zoxide >/dev/null 2>&1; then

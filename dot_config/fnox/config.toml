@@ -1,0 +1,11 @@
+# fnox global config — safe to commit, secrets live in macOS Keychain
+# Bootstrap: after installing fnox, run:
+#   fnox set GITHUB_TOKEN --global
+#   fnox set NODE_AUTH_TOKEN --global
+
+[providers]
+keychain = { type = "keychain", service = "fnox" }
+
+[secrets]
+GITHUB_TOKEN = { provider = "keychain" }
+NODE_AUTH_TOKEN = { provider = "keychain" }
