@@ -79,7 +79,14 @@
       "Bash(grep -r Dracula /Users/adamoldin/.dotfiles --include=*.conf --include=*.toml --include=*.tmpl --include=*.md)",
       "Bash(BAT_CONFIG_PATH=/dev/null bat --list-themes)",
       "Bash(delta --version)",
-      "Bash(delta --list-syntax-themes)"
+      "Bash(delta --list-syntax-themes)",
+      "WebFetch(domain:fnox.jdx.dev)",
+      "Bash(command -v fnox)",
+      "Bash(fnox --version)",
+      "Bash(for skill:*)",
+      "Bash(do)",
+      "Bash(cp -r ~/.agents/skills/$skill /Users/adamoldin/.dotfiles/dot_agents/skills/)",
+      "Bash(done)"
     ]
   },
   "disabledMcpjsonServers": [

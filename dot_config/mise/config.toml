@@ -15,3 +15,5 @@ python = "3.12"
 go = "latest"
 # Rust latest version
 rust = "latest"
+# Pi coding agent
+"npm:@earendil-works/pi-coding-agent" = "0.74.0"

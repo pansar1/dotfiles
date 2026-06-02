@@ -131,11 +131,14 @@ if [[ -d "$DOTFILES_DIR/topics" ]]; then
 fi
 
 # ------------------------------
+# Claude Code
+export BASH_MAX_OUTPUT_LENGTH=15000
+
 # Modern Tool Integrations
 # ------------------------------
 
 # fnox - secret manager (loads secrets from ~/.config/fnox/config.toml + project fnox.toml)
-# Bootstrap on new machine: fnox set GITHUB_TOKEN --global && fnox set NODE_AUTH_TOKEN --global
+# Bootstrap on new machine: fnox set GITHUB_TOKEN --global && fnox set CONTEXT7_API_KEY --global
 if command -v fnox >/dev/null 2>&1; then
   eval "$(fnox activate zsh)"
 fi
